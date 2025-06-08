@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-layout>
-      <app-header v-if="!isPublicRoute" />
+      <app-header />
 
       <v-main>
         <v-container fluid :class="{ 'min-h-screen': isPublicRoute }">

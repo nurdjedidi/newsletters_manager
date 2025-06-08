@@ -7,7 +7,7 @@
 
     <v-spacer></v-spacer>
 
-    <div class="d-none d-md-flex align-center">
+    <div v-if="!isPublicRoute" class="d-none d-md-flex align-center">
       <v-btn v-for="item in navItems" :key="item.title" :to="item.to" variant="text" color="white">
         {{ item.title }}
       </v-btn>
@@ -25,9 +25,10 @@
       </v-menu>
     </div>
 
-    <v-app-bar-nav-icon @click="drawer = !drawer" class="d-flex d-md-none" color="white"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon v-if="!isPublicRoute" @click="drawer = !drawer" class="d-flex d-md-none"
+      color="white"></v-app-bar-nav-icon>
 
-    <v-navigation-drawer v-model="drawer" temporary location="end">
+    <v-navigation-drawer v-if="!isPublicRoute" v-model="drawer" temporary location="end">
       <v-list>
 
         <v-list-item v-for="item in navItems" :key="item.title" :title="item.title" :to="item.to"
@@ -47,7 +48,14 @@ import { ref, computed } from 'vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 const drawer = ref(false)
+
+const publicRoutes = ['/login', '/unsubscribe']
+
+const isPublicRoute = computed(() => {
+  return publicRoutes.includes(route.path)
+})
 
 const navItems = [
   { title: 'Dashboard', to: '/' },
