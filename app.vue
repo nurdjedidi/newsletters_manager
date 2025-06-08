@@ -1,10 +1,10 @@
 <template>
   <v-app>
     <v-layout>
-      <app-header />
+      <app-header v-if="!isPublicRoute" />
 
       <v-main>
-        <v-container fluid>
+        <v-container fluid :class="{ 'min-h-screen': isPublicRoute }">
           <NuxtPage />
         </v-container>
       </v-main>
@@ -14,6 +14,13 @@
 </template>
 
 <script setup>
+const route = useRoute()
+
+const publicRoutes = ['/login', '/unsubscribe']
+
+const isPublicRoute = computed(() => {
+  return publicRoutes.includes(route.path)
+})
 </script>
 
 <style>
