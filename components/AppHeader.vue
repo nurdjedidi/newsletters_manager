@@ -7,7 +7,7 @@
 
     <v-spacer></v-spacer>
 
-    <div v-if="!isPublicRoute" class="d-none d-md-flex align-center">
+    <div class="d-none d-md-flex align-center">
       <v-btn v-for="item in navItems" :key="item.title" :to="item.to" variant="text" color="white">
         {{ item.title }}
       </v-btn>
@@ -50,12 +50,6 @@ const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 const drawer = ref(false)
-
-const publicRoutes = ['/login', '/unsubscribe']
-
-const isPublicRoute = computed(() => {
-  return publicRoutes.includes(route.path)
-})
 
 const navItems = [
   { title: 'Dashboard', to: '/' },
