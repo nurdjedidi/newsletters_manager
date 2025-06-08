@@ -3,7 +3,7 @@ import { pool } from '../db'
 export default defineEventHandler(async (event) => {
   if (event.method === 'OPTIONS') {
     await appendHeaders(event, {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://nurdjedidi.com',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       'Access-Control-Max-Age': '3600'
