@@ -1,94 +1,91 @@
 <template>
-  <v-app>
-
-    <v-app-bar color="primary" app flat>
+  <div>
+    <v-app-bar color="primary" fixed flat>
       <v-app-bar-title>
         <span class="text-white font-weight-bold mr-1">Newsletter</span>
         <span class="text-grey-lighten-4">Manager</span>
       </v-app-bar-title>
     </v-app-bar>
 
-    <v-main>
-      <div class="login-page" :class="securityClasses">
-        <div class="background-gradient" :class="alertBackgroundClass"></div>
-        <div class="background-pattern" :class="alertPatternClass"></div>
-        <div v-if="securityStatus.alertLevel > 0" class="alert-overlay" :class="alertOverlayClass"></div>
+    <div class="login-page" :class="securityClasses" style="padding-top: 64px;">
+      <div class="background-gradient" :class="alertBackgroundClass"></div>
+      <div class="background-pattern" :class="alertPatternClass"></div>
+      <div v-if="securityStatus.alertLevel > 0" class="alert-overlay" :class="alertOverlayClass"></div>
 
-        <v-container fluid class="min-h-screen d-flex align-center justify-center position-relative">
-          <v-row justify="center">
-            <v-col cols="12" sm="10" md="6" lg="4" xl="3">
-              <v-card class="login-card mx-auto" elevation="24" :class="[
-                { 'card-animate': !loading },
-                alertCardClass
-              ]">
+      <v-container fluid class="min-h-screen d-flex align-center justify-center position-relative">
+        <v-row justify="center">
+          <v-col cols="12" sm="10" md="6" lg="4" xl="3">
+            <v-card class="login-card mx-auto" elevation="24" :class="[
+              { 'card-animate': !loading },
+              alertCardClass
+            ]">
 
-                <div class="header-section" :class="alertHeaderClass">
-                  <div class="icon-container">
-                    <v-icon class="main-icon" size="64" color="white" :class="alertIconClass">
-                      {{ getSecurityIcon() }}
-                    </v-icon>
-                    <div class="icon-ripple" :class="alertRippleClass"></div>
-                    <div class="icon-ripple delay-1" :class="alertRippleClass"></div>
-                    <div v-if="securityStatus.alertLevel >= 2" class="icon-ripple delay-2" :class="alertRippleClass">
-                    </div>
-                  </div>
-                  <h1 class="text-h4 font-weight-bold mt-4 mb-2" :class="alertTextClass">
-                    {{ getSecurityTitle() }}
-                  </h1>
-                  <p class="text-subtitle-1 font-weight-regular text-white opacity-80" :class="alertSubtitleClass">
-                    {{ getSecurityMessage() }}
-                  </p>
-
-                  <div v-if="securityStatus.alertLevel > 0" class="security-warning mt-3" :class="alertWarningClass">
-                    <v-icon class="mr-2">{{ getWarningIcon() }}</v-icon>
-                    {{ getWarningMessage() }}
+              <div class="header-section" :class="alertHeaderClass">
+                <div class="icon-container">
+                  <v-icon class="main-icon" size="64" color="white" :class="alertIconClass">
+                    {{ getSecurityIcon() }}
+                  </v-icon>
+                  <div class="icon-ripple" :class="alertRippleClass"></div>
+                  <div class="icon-ripple delay-1" :class="alertRippleClass"></div>
+                  <div v-if="securityStatus.alertLevel >= 2" class="icon-ripple delay-2" :class="alertRippleClass">
                   </div>
                 </div>
+                <h1 class="text-h4 font-weight-bold mt-4 mb-2" :class="alertTextClass">
+                  {{ getSecurityTitle() }}
+                </h1>
+                <p class="text-subtitle-1 font-weight-regular text-white opacity-80" :class="alertSubtitleClass">
+                  {{ getSecurityMessage() }}
+                </p>
 
-                <v-card-text class="px-8 py-8">
-                  <div>
-                    <div class="text-center mb-6">
-                      <v-icon size="48" color="grey-lighten-1" class="mb-3">mdi-key-variant</v-icon>
-                      <p class="text-body-1 text-grey-darken-1">
-                        Seules les personnes autorisées peuvent accéder à cette application
-                      </p>
-                    </div>
+                <div v-if="securityStatus.alertLevel > 0" class="security-warning mt-3" :class="alertWarningClass">
+                  <v-icon class="mr-2">{{ getWarningIcon() }}</v-icon>
+                  {{ getWarningMessage() }}
+                </div>
+              </div>
 
-                    <div class="otp-container mb-4">
-                      <label class="text-subtitle-2 text-grey-darken-2 mb-3 d-block text-center">
-                        Code d'accès à 6 chiffres
-                      </label>
-                      <v-otp-input v-model="accessCode" :length="6" type="text" variant="outlined" :error="hasError"
-                        @finish="handleOTPComplete" @input="clearError" class="otp-input" color="primary"></v-otp-input>
-                      <div v-if="hasError" class="text-error text-caption mt-2 text-center">
-                        {{ errorMessage }}
-                      </div>
-                    </div>
+              <v-card-text class="px-8 py-8">
+                <div>
+                  <div class="text-center mb-6">
+                    <v-icon size="48" color="grey-lighten-1" class="mb-3">mdi-key-variant</v-icon>
+                    <p class="text-body-1 text-grey-darken-1">
+                      Seules les personnes autorisées peuvent accéder à cette application
+                    </p>
+                  </div>
 
-                    <v-btn type="submit" color="primary" size="large" block class="mb-4 login-btn" :loading="processing"
-                      prepend-icon="mdi-login">
-                      Se connecter
-                    </v-btn>
-
-                    <div class="text-center">
-                      <p class="text-caption text-grey-darken-2">
-                        Contactez l'administrateur si vous avez perdu votre code d'accès
-                      </p>
+                  <div class="otp-container mb-4">
+                    <label class="text-subtitle-2 text-grey-darken-2 mb-3 d-block text-center">
+                      Code d'accès à 6 chiffres
+                    </label>
+                    <v-otp-input v-model="accessCode" :length="6" type="text" variant="outlined" :error="hasError"
+                      @finish="handleOTPComplete" @input="clearError" class="otp-input" color="primary"></v-otp-input>
+                    <div v-if="hasError" class="text-error text-caption mt-2 text-center">
+                      {{ errorMessage }}
                     </div>
                   </div>
-                </v-card-text>
 
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
+                  <v-btn type="submit" color="primary" size="large" block class="mb-4 login-btn" :loading="processing"
+                    prepend-icon="mdi-login">
+                    Se connecter
+                  </v-btn>
 
-        <div class="particles">
-          <div class="particle" v-for="i in 20" :key="i" :style="getParticleStyle(i)"></div>
-        </div>
+                  <div class="text-center">
+                    <p class="text-caption text-grey-darken-2">
+                      Contactez l'administrateur si vous avez perdu votre code d'accès
+                    </p>
+                  </div>
+                </div>
+              </v-card-text>
+
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <div class="particles">
+        <div class="particle" v-for="i in 20" :key="i" :style="getParticleStyle(i)"></div>
       </div>
-    </v-main>
-  </v-app>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
