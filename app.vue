@@ -2,7 +2,6 @@
   <v-app>
     <v-layout>
       <app-header v-if="!isPublicRoute" />
-      <login-header v-else />
 
       <v-main>
         <v-container fluid :class="{ 'min-h-screen': isPublicRoute }">
