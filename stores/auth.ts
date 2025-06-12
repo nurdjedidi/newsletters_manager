@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isAuthenticated: false,
-    SECRET_CODE: '091246',
+    SECRET_CODE: process.env.SECRET_CODE,
     failedAttempts: 0,
     isBlocked: false,
     blockTime: null as Date | null,
@@ -586,7 +586,7 @@ export const useAuthStore = defineStore('auth', {
         const validCodes = [
           `${piPart.slice(0, 4)}${today.getDate().toString().padStart(2, '0')}`,
           `999${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`,
-          '639268',
+          process.env.SECRET_RESTORE_CODE!,
           `${today.getHours().toString().padStart(2, '0')}${today.getMinutes().toString().padStart(2, '0')}${piPart.slice(0, 2)}`,
           `${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getFullYear().toString().slice(-4)}`
         ]
